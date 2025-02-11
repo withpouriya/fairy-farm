@@ -1,13 +1,14 @@
-from pygame.math import Vector2
+"""Configuration settings for the game."""
+
 from pathlib import Path
 
+from pygame.math import Vector2
 
-BASE_DIR: Path = Path(__file__).parent.parent.parent
+BASE_DIR: Path = Path(__file__).parent.parent
 ASSETS_DIR: Path = BASE_DIR / "assets"
 
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH, SCREEN_HEIGHT = (1280, 720)
 TILE_SIZE = 64
 
 OVERLAY_POSITIONS: dict[str, tuple[int, int]] = {
