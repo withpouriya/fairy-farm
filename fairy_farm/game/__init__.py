@@ -29,6 +29,6 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-            dt: float = self.clock.tick() / 1000
+            dt: float = self.clock.tick(60) / 1000
             self.level.run(dt)
             pygame.display.update()

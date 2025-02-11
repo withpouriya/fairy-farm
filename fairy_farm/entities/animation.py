@@ -33,4 +33,5 @@ class EntityAnimation:
 
     def get_frame(self, facing: EntityFacing, frame_idx: int) -> pygame.Surface:
         """Return the specified animation frame for the given facing direction."""
+        frame_idx = frame_idx % len(getattr(self, facing.value))
         return getattr(self, facing.value)[frame_idx]

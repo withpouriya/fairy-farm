@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 from enum import StrEnum
-from pathlib import Path
 
 import pygame
 
@@ -20,20 +19,21 @@ class PlayerStatus(StrEnum):
 
 
 @dataclass
-class PlayerAnimation:
+class PlayerAnimation(EntityAnimation):
     """Handle loading and retrieving player animations."""
-
-    assets_dir: Path
 
     def __post_init__(self) -> None:
         """Initialize animations for different player statuses."""
+        super().__post_init__()
         self.idl: EntityAnimation = EntityAnimation(self.assets_dir / "idl")
         self.hoe: EntityAnimation = EntityAnimation(self.assets_dir / "hoe")
         self.axe: EntityAnimation = EntityAnimation(self.assets_dir / "axe")
         self.water: EntityAnimation = EntityAnimation(self.assets_dir / "water")
 
-    def get_frame(self, status: PlayerStatus, facing: EntityFacing, frame_idx: int) -> pygame.Surface:
+    def get_player_frame(self, status: PlayerStatus, facing: EntityFacing, frame_idx: int) -> pygame.Surface:
         """Return the specified animation frame based on player status and facing direction."""
         if status == PlayerStatus.NONE:
-            return getattr(self, facing.value)[frame_idx]
-        return getattr(getattr(self, status.value), facing.value)[frame_idx]
+            attr = getattr(self, facing.value)
+            return attr[frame_idx % len(attr)]
+        attr = getattr(getattr(self, status.value), facing.value)
+        return attr[frame_idx % len(attr)]

@@ -12,36 +12,46 @@ class Player(pygame.sprite.Sprite):
 
         self.status = PlayerStatus.IDL
         self.facing = EntityFacing.DOWN
-        self.frame_idx = 0
+        self.frame_idx: float = 0
 
-        self.image: pygame.Surface = self.__get_image()
         self.rect: pygame.Rect = self.image.get_rect(center=pos)
 
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.speed = 200
 
-    def __get_image(self) -> pygame.Surface:
-        return self.animation.get_frame(self.status, self.facing, self.frame_idx)
+    @property
+    def image(self) -> pygame.Surface:
+        return self.animation.get_player_frame(self.status, self.facing, int(self.frame_idx))
 
     def input(self) -> None:
         keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
+            self.facing = EntityFacing.UP
+            self.status = PlayerStatus.NONE
             self.direction.y = -1
         elif keys[pygame.K_DOWN]:
+            self.facing = EntityFacing.DOWN
+            self.status = PlayerStatus.NONE
             self.direction.y = 1
         else:
+            self.status = PlayerStatus.IDL
             self.direction.y = 0
 
         if keys[pygame.K_RIGHT]:
+            self.facing = EntityFacing.RIGHT
+            self.status = PlayerStatus.NONE
             self.direction.x = 1
         elif keys[pygame.K_LEFT]:
+            self.facing = EntityFacing.LEFT
+            self.status = PlayerStatus.NONE
             self.direction.x = -1
         else:
             self.direction.x = 0
 
-        print(self.direction)
+    def animate(self, dt: float) -> None:
+        self.frame_idx += 4 * dt
 
     def move(self, dt: float) -> None:
         if self.direction.magnitude():
@@ -55,4 +65,5 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, dt: float) -> None:
         self.input()
+        self.animate(dt)
         self.move(dt)
