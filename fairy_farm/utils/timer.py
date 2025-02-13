@@ -11,7 +11,7 @@ class Timer:
     """Timer class for managing a countdown with a callable function upon expiration."""
 
     duration: int
-    func: Callable[[], None]
+    on_active: Callable[[], None] | None = None
     start_time: int = 0
     active: bool = False
 
@@ -30,4 +30,5 @@ class Timer:
         current_time: int = pygame.time.get_ticks()
         if self.active and current_time - self.start_time >= self.duration:
             self.deactivate()
-            self.func()
+            if self.on_active:
+                self.on_active()
