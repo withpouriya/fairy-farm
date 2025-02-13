@@ -6,6 +6,7 @@ import pygame
 
 from fairy_farm import settings
 from fairy_farm.entities.animation import EntityFacing
+from fairy_farm.entities.sprites import Sprite
 from fairy_farm.entities.sprites.player.animation import PlayerAnimation, PlayerStatus
 from fairy_farm.entities.sprites.player.items import Seed, Tool
 from fairy_farm.utils.timer import Timer
@@ -18,18 +19,21 @@ class HeldItem(Enum):
     SEED = 2
 
 
-class Player(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite, Sprite):
     """Represent the player character with movement and animation functionality."""
 
     def __init__(self, pos: tuple[int, int], group: pygame.sprite.Group) -> None:  # type: ignore  # noqa: PGH003
         """Initialize the player with position, sprite group, and initial animation and status."""
         super().__init__(group)  # type: ignore  # noqa: PGH003
+
+        self.z = settings.Layers.MAIN
+
         self.animation = PlayerAnimation(settings.ASSETS_DIR / "graphics" / "character")
 
         self.facing = EntityFacing.DOWN
         self.frame_idx: float = 0
 
-        self.rect: pygame.Rect = self.image.get_rect(center=pos)
+        self.rect: pygame.Rect = self.img.get_rect(center=pos)
 
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
@@ -65,7 +69,7 @@ class Player(pygame.sprite.Sprite):
         return None
 
     @property
-    def image(self) -> pygame.Surface:
+    def img(self) -> pygame.Surface:
         """Return the current player frame based on status and facing direction."""
         return self.animation.get_player_frame(self.status, self.facing, int(self.frame_idx))
 
@@ -79,19 +83,19 @@ class Player(pygame.sprite.Sprite):
         keys: pygame.key.ScancodeWrapper = pygame.key.get_pressed()
 
         if self.can_move:
-            if keys[pygame.K_UP]:
+            if keys[pygame.K_UP] or keys[pygame.K_w]:
                 self.facing = EntityFacing.UP
                 self.direction.y = -1
-            elif keys[pygame.K_DOWN]:
+            elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
                 self.facing = EntityFacing.DOWN
                 self.direction.y = 1
             else:
                 self.direction.y = 0
 
-            if keys[pygame.K_RIGHT]:
+            if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
                 self.facing = EntityFacing.RIGHT
                 self.direction.x = 1
-            elif keys[pygame.K_LEFT]:
+            elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
                 self.facing = EntityFacing.LEFT
                 self.direction.x = -1
             else:

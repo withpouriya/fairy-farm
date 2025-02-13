@@ -16,14 +16,14 @@ class Overlay:
 
     def __post_init__(self) -> None:
         """Initialize the overlay by getting the game's display surface."""
-        self.display: pygame.Surface = pygame.display.get_surface()
+        self.display_surface: pygame.Surface = pygame.display.get_surface()
 
     def draw(self) -> None:
         """Render the selected tool and seed on the screen."""
         tool_surf: pygame.Surface = self.player.selected_tool.item_surf
         tool_rect: pygame.Rect = tool_surf.get_rect(midbottom=(40, settings.SCREEN_HEIGHT - 15))
-        self.display.blit(tool_surf, tool_rect)
+        self.display_surface.blit(tool_surf, tool_rect)
 
         seed_surf: pygame.Surface = self.player.selected_seed.item_surf
         seed_rect: pygame.Rect = seed_surf.get_rect(midbottom=(70, settings.SCREEN_HEIGHT - 5))
-        self.display.blit(seed_surf, seed_rect)
+        self.display_surface.blit(seed_surf, seed_rect)

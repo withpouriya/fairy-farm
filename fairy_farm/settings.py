@@ -1,6 +1,7 @@
 """Configuration settings for the game."""
 
 from pathlib import Path
+from enum import Enum
 
 from pygame.math import Vector2
 
@@ -23,19 +24,20 @@ PLAYER_TOOL_OFFSET: dict[str, Vector2] = {
     "down": Vector2(0, 50),
 }
 
-LAYERS: list[str] = [
-    "water",
-    "ground",
-    "soil",
-    "soil water",
-    "rain floor",
-    "house bottom",
-    "ground plant",
-    "main",
-    "house top",
-    "fruit",
-    "rain drops",
-]
+
+class Layers(Enum):
+    WATER = 1
+    GROUND = 2
+    SOIL = 3
+    SOIL_WATER = 4
+    RAIN_FLOOR = 5
+    HOUSE_BOTTOM = 6
+    GROUND_PLANT = 7
+    MAIN = 8
+    HOUSE_TOP = 9
+    FRUIT = 10
+    RAIN_DROPS = 11
+
 
 APPLE_POS: dict[str, list[tuple[int, int]]] = {
     "Small": [(18, 17), (30, 37), (12, 50), (30, 45), (20, 30), (30, 10)],
