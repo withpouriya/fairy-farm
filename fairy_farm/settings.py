@@ -1,7 +1,7 @@
 """Configuration settings for the game."""
 
-from pathlib import Path
 from enum import Enum
+from pathlib import Path
 
 from pygame.math import Vector2
 
@@ -26,6 +26,8 @@ PLAYER_TOOL_OFFSET: dict[str, Vector2] = {
 
 
 class Layers(Enum):
+    """Enum representing different layers in the game."""
+
     WATER = 1
     GROUND = 2
     SOIL = 3
