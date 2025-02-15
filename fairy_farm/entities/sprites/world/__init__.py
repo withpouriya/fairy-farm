@@ -8,7 +8,7 @@ from fairy_farm import settings
 from fairy_farm.entities.sprites import Sprite
 
 
-class World(pygame.sprite.Sprite, Sprite):
+class World(Sprite):
     """Represent the game world and its rendering."""
 
     def __init__(self, group: pygame.sprite.Group) -> None:  # type: ignore  # noqa: PGH003

@@ -16,6 +16,9 @@ class Level:
         self.display_surface: pygame.Surface = pygame.display.get_surface()
         self.all_sprites: CameraGroup = CameraGroup()
 
+        self.__setup()
+
+    def __setup(self) -> None:
         World(self.all_sprites)
 
         self.player = Player((640, 360), self.all_sprites)

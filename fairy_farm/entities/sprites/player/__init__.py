@@ -19,7 +19,7 @@ class HeldItem(Enum):
     SEED = 2
 
 
-class Player(pygame.sprite.Sprite, Sprite):
+class Player(Sprite):
     """Represent the player character with movement and animation functionality."""
 
     def __init__(self, pos: tuple[int, int], group: pygame.sprite.Group) -> None:  # type: ignore  # noqa: PGH003
